@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pet_adoption/screens/authentication/email_auth_screen.dart';
 import 'package:pet_adoption/screens/authentication/phoneauth_screen.dart';
 import 'package:pet_adoption/screens/home_screen.dart';
 import 'package:pet_adoption/screens/location_screen.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         PhoneAuthScreen.id: (context) => PhoneAuthScreen(),
         LocationScreen.id: (context) => LocationScreen(),
         HomeScreen.id: (context) => HomeScreen(),
+        EmailAuthScreen.id: (context) => EmailAuthScreen(),
       },
     );
   }

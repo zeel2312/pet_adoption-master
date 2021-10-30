@@ -4,14 +4,13 @@ import 'package:legacy_progress_dialog/legacy_progress_dialog.dart';
 import 'package:pet_adoption/services/phoneauth_service.dart';
 
 class PhoneAuthScreen extends StatefulWidget {
-  static const String id= 'phone-auth-screen';
+  static const String id = 'phone-auth-screen';
 
   @override
   _PhoneAuthScreenState createState() => _PhoneAuthScreenState();
 }
 
 class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
-
   bool validate = false;
 
   var countryCodeController = TextEditingController(text: '+91');
@@ -19,10 +18,8 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
 
   PhoneAuthService _service = PhoneAuthService();
 
-
   @override
   Widget build(BuildContext context) {
-
     //Create an instance of ProgressDialog
     ProgressDialog progressDialog = ProgressDialog(
       context: context,
@@ -30,37 +27,49 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
       textColor: Colors.black,
       loadingText: 'Please wait',
       progressIndicatorColor: Theme.of(context).primaryColor,
-
     );
 
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
         backgroundColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.black,),
-        title: Text('Login',style: TextStyle(color: Colors.black),),
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        title: Text(
+          'Login',
+          style: TextStyle(color: Colors.black),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 40,),
+            SizedBox(
+              height: 40,
+            ),
             CircleAvatar(
               radius: 30,
               backgroundColor: Colors.cyan.shade900,
-              child: Icon(CupertinoIcons.person_alt_circle,
+              child: Icon(
+                CupertinoIcons.person_alt_circle,
                 color: Colors.white,
                 size: 60,
               ),
             ),
-            SizedBox(height: 12,),
-            Text(
-                'Enter your Phone',
-                style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),
+            SizedBox(
+              height: 12,
             ),
-            SizedBox(height: 10,),
-            Text('We will send confirmation code to your phone',
+            Text(
+              'Enter your Phone',
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              'We will send confirmation code to your phone',
               style: TextStyle(color: Colors.grey),
             ),
             Row(
@@ -71,23 +80,22 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
                     controller: countryCodeController,
                     enabled: false,
                     decoration: InputDecoration(
-                      counterText: '10',
-                      labelText: 'Country'
-                    ),
+                        counterText: '10', labelText: 'Country'),
                   ),
                 ),
-                SizedBox(width: 10,
+                SizedBox(
+                  width: 10,
                 ),
                 Expanded(
                   flex: 3,
                   child: TextFormField(
-                    onChanged: (value){
-                      if(value.length==10){
+                    onChanged: (value) {
+                      if (value.length == 10) {
                         setState(() {
                           validate = true;
                         });
                       }
-                      if(value.length<10){
+                      if (value.length < 10) {
                         setState(() {
                           validate = false;
                         });
@@ -98,9 +106,9 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
                     keyboardType: TextInputType.phone,
                     controller: phoneNumberController,
                     decoration: InputDecoration(
-                        labelText: 'Number',
+                      labelText: 'Number',
                       hintText: 'Enter your phone number',
-                      hintStyle: TextStyle(fontSize: 10,color: Colors.grey),
+                      hintStyle: TextStyle(fontSize: 10, color: Colors.grey),
                     ),
                   ),
                 ),
@@ -132,8 +140,9 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
                 padding: const EdgeInsets.all(12.0),
                 child: Text(
                   'Next',
-                  style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),
-            ),
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                ),
               ),
             ),
           ),
