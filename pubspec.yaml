@@ -40,6 +40,8 @@ dependencies:
   geocoder: ^0.2.1
   google_sign_in: ^5.0.2
   email_validator: ^2.0.1
+  open_mail_app: ^0.1.1
+  csc_picker: ^0.2.5
 
 dev_dependencies:
   flutter_test:

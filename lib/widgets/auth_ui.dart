@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:pet_adoption/screens/authentication/email_auth_screen.dart';
+import 'package:pet_adoption/screens/authentication/email_verification_screen.dart';
 import 'package:pet_adoption/screens/authentication/google_auth.dart';
 import 'package:pet_adoption/screens/authentication/phoneauth_screen.dart';
 import 'package:pet_adoption/services/phoneauth_service.dart';
@@ -73,6 +74,7 @@ class AuthUi extends StatelessWidget {
           InkWell(
             onTap: (){
               Navigator.pushNamed(context, EmailAuthScreen.id);
+              //Navigator.pushNamed(context, EmailVerificationScreen.id);
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
