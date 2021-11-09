@@ -1,6 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pet_adoption/services/emailAuth_service.dart';
 
 class EmailAuthScreen extends StatefulWidget {
   static const String id = 'emailAuth-Screen';
@@ -10,7 +11,6 @@ class EmailAuthScreen extends StatefulWidget {
 }
 
 class _EmailAuthScreenState extends State<EmailAuthScreen> {
-
   final _formKey = GlobalKey<FormState>();
 
   bool _validate = false;
@@ -20,11 +20,26 @@ class _EmailAuthScreenState extends State<EmailAuthScreen> {
   var _emailController = TextEditingController();
   var _passwordController = TextEditingController();
 
-  _validateEmail(){
-    if(_formKey.currentState.validate()){
+  EmailAuthentication _service = EmailAuthentication();
+
+  _validateEmail() {
+    if (_formKey.currentState.validate()) {
       setState(() {
         _validate = false;
         _loading = true;
+      });
+
+      _service
+          .getAdminCredential(
+        context: context,
+        isLog: _login,
+        password: _passwordController.text,
+        email: _emailController.text,
+      )
+          .then((value) {
+        setState(() {
+          _loading = false;
+        });
       });
     }
   }
@@ -106,6 +121,17 @@ class _EmailAuthScreenState extends State<EmailAuthScreen> {
               TextFormField(
                 controller: _passwordController,
                 decoration: InputDecoration(
+                  suffixIcon: _validate
+                      ? IconButton(
+                          icon: Icon(Icons.clear),
+                          onPressed: (){
+                            _passwordController.clear();
+                            setState(() {
+                              _validate = false;
+                            });
+                          },
+                        )
+                      : null,
                   contentPadding: EdgeInsets.only(left: 10),
                   labelText: 'Password',
                   filled: true,
@@ -114,19 +140,41 @@ class _EmailAuthScreenState extends State<EmailAuthScreen> {
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),
-                onChanged: (value){
-                  if(_emailController.text.isNotEmpty){
-                    if(value.length>3){
+                onChanged: (value) {
+                  if (_emailController.text.isNotEmpty) {
+                    if (value.length > 3) {
                       setState(() {
                         _validate = true;
                       });
-                    }else{
+                    } else {
                       setState(() {
                         _validate = false;
                       });
                     }
                   }
                 },
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  Text(_login ? 'New account ?' : 'Already has an account'),
+                  TextButton(
+                    child: Text(
+                      _login ? 'Register' : 'Login',
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _login = !_login;
+                      });
+                    },
+                  )
+                ],
               ),
             ],
           ),
@@ -148,17 +196,20 @@ class _EmailAuthScreenState extends State<EmailAuthScreen> {
               },
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
-                child: _loading ? SizedBox(
-                  height: 24,
-                  width: 24,
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                  ),
-                ) : Text(
-                  '${_login ? 'Login' : 'Register'}',
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
-                ),
+                child: _loading
+                    ? SizedBox(
+                        height: 24,
+                        width: 24,
+                        child: CircularProgressIndicator(
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.white),
+                        ),
+                      )
+                    : Text(
+                        '${_login ? 'Login' : 'Register'}',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
               ),
             ),
           ),
