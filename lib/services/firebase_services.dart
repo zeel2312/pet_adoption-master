@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:pet_adoption/screens/home_screen.dart';
 
 class FirebaseService {
@@ -8,7 +9,7 @@ class FirebaseService {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   User user = FirebaseAuth.instance.currentUser;
 
-  Future<void> updateuser(Map<String, dynamic>data, context) {
+  Future<void> updateUser(Map<String, dynamic>data, context) {
     return users
         .doc(user.uid)
         .update(data)
@@ -22,5 +23,13 @@ class FirebaseService {
         ),
       );
     });
+  }
+
+  Future<String>getAddress(lat,long)async{
+    final coordinates = new Coordinates(lat,long);
+    var addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    var first = addresses.first;
+
+    return first.addressLine;
   }
 }
