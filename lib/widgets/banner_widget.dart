@@ -28,7 +28,7 @@ class BannerWidget extends StatelessWidget {
                             height: 10,
                           ),
                           Text(
-                            'DOGS ',
+                            'Cats ',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
