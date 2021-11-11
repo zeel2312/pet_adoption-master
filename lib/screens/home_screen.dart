@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_adoption/widgets/banner_widget.dart';
+import 'package:pet_adoption/widgets/category_widget.dart';
 import 'package:pet_adoption/widgets/custom_appBar.dart';
 
 import 'location_screen.dart';
@@ -60,6 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               children: [
                 BannerWidget(),
+                CategoryWidget(),
               ],
             ),
           ),

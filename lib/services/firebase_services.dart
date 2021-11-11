@@ -6,8 +6,11 @@ import 'package:pet_adoption/screens/home_screen.dart';
 
 class FirebaseService {
 
-  CollectionReference users = FirebaseFirestore.instance.collection('users');
   User user = FirebaseAuth.instance.currentUser;
+
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
+  CollectionReference catagories = FirebaseFirestore.instance.collection('catagories');
+
 
   Future<void> updateUser(Map<String, dynamic>data, context) {
     return users

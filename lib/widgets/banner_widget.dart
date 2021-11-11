@@ -28,7 +28,7 @@ class BannerWidget extends StatelessWidget {
                             height: 10,
                           ),
                           Text(
-                            'Cats ',
+                            'DOGS ',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
@@ -67,8 +67,12 @@ class BannerWidget extends StatelessWidget {
                       Neumorphic(
                         style: NeumorphicStyle(
                           color: Colors.white,
+                          oppositeShadowLightSource: true
                         ),
-                        child: Image.network('https://firebasestorage.googleapis.com/v0/b/fir-pet-adoption.appspot.com/o/banner%2Ficons8-dog-100.png?alt=media&token=28725f4b-ed76-45a9-aec1-4658a47320be'),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.network('https://firebasestorage.googleapis.com/v0/b/fir-pet-adoption.appspot.com/o/banner%2Ficons8-dog-100.png?alt=media&token=28725f4b-ed76-45a9-aec1-4658a47320be'),
+                        ),
                       ),
                     ],
                   ),
