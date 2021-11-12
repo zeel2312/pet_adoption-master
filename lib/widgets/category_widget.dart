@@ -14,7 +14,7 @@ class CategoryWidget extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Container(
         child: FutureBuilder<QuerySnapshot>(
-          future: _service.catagories.get(),
+          future: _service.categories.get(),
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasError) {
               return Container();

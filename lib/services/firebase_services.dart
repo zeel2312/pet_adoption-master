@@ -9,7 +9,7 @@ class FirebaseService {
   User user = FirebaseAuth.instance.currentUser;
 
   CollectionReference users = FirebaseFirestore.instance.collection('users');
-  CollectionReference catagories = FirebaseFirestore.instance.collection('catagories');
+  CollectionReference categories = FirebaseFirestore.instance.collection('categories');
 
 
   Future<void> updateUser(Map<String, dynamic>data, context) {

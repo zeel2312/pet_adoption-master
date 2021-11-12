@@ -20,7 +20,7 @@ class SubCatList extends StatelessWidget {
       ),
       body: Container(
         child: FutureBuilder<DocumentSnapshot>(
-          future: _service.catagories.doc(args.id).get(),
+          future: _service.categories.doc(args.id).get(),
           builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
             if (snapshot.hasError) {
               return Container();
