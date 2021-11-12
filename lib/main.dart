@@ -3,6 +3,8 @@ import 'package:pet_adoption/screens/authentication/email_auth_screen.dart';
 import 'package:pet_adoption/screens/authentication/email_verification_screen.dart';
 import 'package:pet_adoption/screens/authentication/phoneauth_screen.dart';
 import 'package:pet_adoption/screens/authentication/reset_password_screen.dart';
+import 'package:pet_adoption/screens/categories/category_list.dart';
+import 'package:pet_adoption/screens/categories/subCat_screen.dart';
 import 'package:pet_adoption/screens/home_screen.dart';
 import 'package:pet_adoption/screens/location_screen.dart';
 import 'package:pet_adoption/screens/login_screen.dart';
@@ -33,6 +35,8 @@ class MyApp extends StatelessWidget {
         EmailAuthScreen.id: (context) => EmailAuthScreen(),
         EmailVerificationScreen.id: (context) => EmailVerificationScreen(),
         PasswordResetScreen.id: (context) => PasswordResetScreen(),
+        CategoryListScreen.id: (context) => CategoryListScreen(),
+        SubCatList.id: (context) => SubCatList(),
       },
     );
   }

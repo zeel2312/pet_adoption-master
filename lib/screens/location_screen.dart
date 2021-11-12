@@ -15,6 +15,11 @@ import 'login_screen.dart';
 class LocationScreen extends StatefulWidget {
   static const String id = 'location-screen';
 
+  final bool locationChanging;
+  LocationScreen({this.locationChanging});
+
+
+
   @override
   _LocationScreenState createState() => _LocationScreenState();
 }
@@ -70,23 +75,31 @@ class _LocationScreenState extends State<LocationScreen> {
   @override
   Widget build(BuildContext context) {
 
-    _service.users
-        .doc(_service.user.uid)
-        .get()
-        .then((DocumentSnapshot document) {
-      if (document.exists) {
-        if (document['address'] != null) {
-          setState(() {
-            _loading = true;
-          });
-          Navigator.pushReplacementNamed(context, HomeScreen.id);
-        } else {
-          setState(() {
-            _loading = false;
-          });
+    if(widget.locationChanging==null){
+      _service.users
+          .doc(_service.user.uid)
+          .get()
+          .then((DocumentSnapshot document) {
+        if (document.exists) {
+          if (document['address'] != null) {
+            setState(() {
+              _loading = true;
+            });
+            Navigator.pushReplacementNamed(context, HomeScreen.id);
+          } else {
+            setState(() {
+              _loading = false;
+            });
+          }
         }
-      }
-    });
+      });
+    }else{
+      setState(() {
+        _loading=false;
+      });
+    }
+
+
 
     ProgressDialog progressDialog = ProgressDialog(
       context: context,

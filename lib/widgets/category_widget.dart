@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:pet_adoption/screens/categories/category_list.dart';
 import 'package:pet_adoption/services/firebase_services.dart';
 
 class CategoryWidget extends StatelessWidget {
@@ -30,11 +31,17 @@ class CategoryWidget extends StatelessWidget {
                   Row(
                     children: [
                       Expanded(child: Text('categories')),
-                      TextButton(onPressed: (){},
+                      TextButton(
+                        onPressed: (){
+                          Navigator.pushNamed(context, CategoryListScreen.id);
+                      },
                         child: Row(
                           children: [
-                            Text('See all',style: TextStyle(color: Colors.black),),
-                            Icon(Icons.arrow_forward_ios,size: 12,color: Colors.black,)
+                            Text('See all',style: TextStyle(color: Colors.black),
+                            ),
+                            Icon(Icons.arrow_forward_ios,
+                              size: 12,
+                              color: Colors.black,)
                           ],
                         ),
                       ),
@@ -57,7 +64,7 @@ class CategoryWidget extends StatelessWidget {
                                 Image.network(doc['image']),
                                 Flexible(
                                   child: Text(
-                                    doc['catName'],
+                                    doc['catName'].toUpperCase(),
                                     maxLines: 2,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(fontSize: 10),
