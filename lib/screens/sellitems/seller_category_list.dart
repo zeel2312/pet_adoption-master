@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_adoption/screens/categories/subCat_screen.dart';
+import 'package:pet_adoption/screens/sellitems/seller_subCat.dart';
 import 'package:pet_adoption/services/firebase_services.dart';
 
-class CategoryListScreen extends StatelessWidget {
-  static const String id = 'category-list-screen';
+class SellerCategory extends StatelessWidget {
+  static const String id = 'seller-category-list-screen';
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +18,11 @@ class CategoryListScreen extends StatelessWidget {
         shape: Border(bottom: BorderSide(color: Colors.grey),),
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
-        title: Text('Categories',style:TextStyle(color: Colors.black,),),
+        title: Text('Choose Categories',style:TextStyle(color: Colors.black,),),
       ),
       body: Container(
         child: FutureBuilder<QuerySnapshot>(
-          future: _service.categories.get(),
+          future: _service.categories.orderBy('sortId',descending: false).get(),
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasError) {
               return Container();
@@ -45,11 +46,11 @@ class CategoryListScreen extends StatelessWidget {
                         if(doc['subCat']==null){
                           return print('No sub Categories');
                         }
-                        Navigator.pushNamed(context, SubCatList.id,arguments: doc);
+                        Navigator.pushNamed(context, SellerSubCatList.id,arguments: doc);
                       },
                       leading: Image.network(doc['image'],width: 40,),
                       title: Text(doc['catName'],style: TextStyle(fontSize: 15),),
-                      trailing: Icon(Icons.arrow_forward_ios,size: 12,),
+                      trailing: doc['subCat']==null ? null : Icon(Icons.arrow_forward_ios,size: 12,),
                     ),
                   );
                 },

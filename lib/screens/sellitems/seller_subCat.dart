@@ -1,14 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:pet_adoption/screens/categories/subCat_screen.dart';
 import 'package:pet_adoption/services/firebase_services.dart';
 
-class CategoryListScreen extends StatelessWidget {
-  static const String id = 'category-list-screen';
-
+class SellerSubCatList extends StatelessWidget {
+  static const String id = 'seller-subCat-screen';
   @override
   Widget build(BuildContext context) {
 
+    DocumentSnapshot args =ModalRoute.of(context).settings.arguments;
     FirebaseService _service = FirebaseService();
 
     return Scaffold(
@@ -17,12 +16,12 @@ class CategoryListScreen extends StatelessWidget {
         shape: Border(bottom: BorderSide(color: Colors.grey),),
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
-        title: Text('Categories',style:TextStyle(color: Colors.black,),),
+        title: Text(args['catName'],style:TextStyle(color: Colors.black,fontSize: 18),),
       ),
       body: Container(
-        child: FutureBuilder<QuerySnapshot>(
-          future: _service.categories.get(),
-          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        child: FutureBuilder<DocumentSnapshot>(
+          future: _service.categories.doc(args.id).get(),
+          builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
             if (snapshot.hasError) {
               return Container();
             }
@@ -31,25 +30,23 @@ class CategoryListScreen extends StatelessWidget {
               return Center(child: CircularProgressIndicator(),);
             }
 
+            var data = snapshot.data['subCat'];
             return Container(
               child: ListView.builder(
 
-                itemCount: snapshot.data.docs.length,
+                itemCount: data.length,
                 itemBuilder: (BuildContext context,int index){
-                  var doc = snapshot.data.docs[index];
+
 
                   return Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(left: 8,right: 8),
                     child: ListTile(
                       onTap: (){
-                        if(doc['subCat']==null){
-                          return print('No sub Categories');
-                        }
-                        Navigator.pushNamed(context, SubCatList.id,arguments: doc);
+
                       },
-                      leading: Image.network(doc['image'],width: 40,),
-                      title: Text(doc['catName'],style: TextStyle(fontSize: 15),),
-                      trailing: Icon(Icons.arrow_forward_ios,size: 12,),
+
+                      title: Text(data[index],style: TextStyle(fontSize: 15),),
+
                     ),
                   );
                 },
@@ -61,3 +58,4 @@ class CategoryListScreen extends StatelessWidget {
     );
   }
 }
+

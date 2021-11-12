@@ -8,6 +8,9 @@ import 'package:pet_adoption/screens/categories/subCat_screen.dart';
 import 'package:pet_adoption/screens/home_screen.dart';
 import 'package:pet_adoption/screens/location_screen.dart';
 import 'package:pet_adoption/screens/login_screen.dart';
+import 'package:pet_adoption/screens/main_screen.dart';
+import 'package:pet_adoption/screens/sellitems/seller_category_list.dart';
+import 'package:pet_adoption/screens/sellitems/seller_subCat.dart';
 import 'package:pet_adoption/screens/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -37,6 +40,9 @@ class MyApp extends StatelessWidget {
         PasswordResetScreen.id: (context) => PasswordResetScreen(),
         CategoryListScreen.id: (context) => CategoryListScreen(),
         SubCatList.id: (context) => SubCatList(),
+        MainScreen.id: (context) => MainScreen(),
+        SellerSubCatList.id: (context) => SellerSubCatList(),
+        SellerCategory.id: (context) => SellerCategory(),
       },
     );
   }

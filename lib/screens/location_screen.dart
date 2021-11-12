@@ -9,6 +9,7 @@ import 'package:geocoder/geocoder.dart';
 import 'package:legacy_progress_dialog/legacy_progress_dialog.dart';
 import 'package:location/location.dart';
 import 'package:pet_adoption/screens/home_screen.dart';
+import 'package:pet_adoption/screens/main_screen.dart';
 import 'package:pet_adoption/services/firebase_services.dart';
 import 'login_screen.dart';
 
@@ -85,7 +86,7 @@ class _LocationScreenState extends State<LocationScreen> {
             setState(() {
               _loading = true;
             });
-            Navigator.pushReplacementNamed(context, HomeScreen.id);
+            Navigator.pushReplacementNamed(context, MainScreen.id);
           } else {
             setState(() {
               _loading = false;
