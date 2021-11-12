@@ -82,11 +82,13 @@ class _LocationScreenState extends State<LocationScreen> {
           .get()
           .then((DocumentSnapshot document) {
         if (document.exists) {
-          if (document['address'] != null) {
-            setState(() {
-              _loading = true;
-            });
-            Navigator.pushReplacementNamed(context, MainScreen.id);
+          if(mounted){
+            if (document['address'] != null) {
+              setState(() {
+                _loading = true;
+              });
+              Navigator.pushReplacementNamed(context, MainScreen.id);
+          }
           } else {
             setState(() {
               _loading = false;

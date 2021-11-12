@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pet_adoption/forms/seller_dog_form.dart';
+import 'package:pet_adoption/provider/cat_provider.dart';
 import 'package:pet_adoption/screens/authentication/email_auth_screen.dart';
 import 'package:pet_adoption/screens/authentication/email_verification_screen.dart';
 import 'package:pet_adoption/screens/authentication/phoneauth_screen.dart';
@@ -13,11 +15,18 @@ import 'package:pet_adoption/screens/sellitems/seller_category_list.dart';
 import 'package:pet_adoption/screens/sellitems/seller_subCat.dart';
 import 'package:pet_adoption/screens/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(
+      MultiProvider(
+        providers: [
+          Provider (create: (_) => CategoryProvider()),
+        ],
+        child: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -43,6 +52,7 @@ class MyApp extends StatelessWidget {
         MainScreen.id: (context) => MainScreen(),
         SellerSubCatList.id: (context) => SellerSubCatList(),
         SellerCategory.id: (context) => SellerCategory(),
+        SellerDogForm.id: (context) => SellerDogForm(),
       },
     );
   }

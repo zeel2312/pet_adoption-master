@@ -30,6 +30,7 @@ class _MainScreenState extends State<MainScreen> {
         bucket: _bucket,
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.purple,
         onPressed: () {
           Navigator.pushNamed(context, SellerCategory.id);
         },

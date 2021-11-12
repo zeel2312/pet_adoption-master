@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:pet_adoption/forms/seller_dog_form.dart';
+import 'package:pet_adoption/provider/cat_provider.dart';
 import 'package:pet_adoption/screens/categories/subCat_screen.dart';
 import 'package:pet_adoption/screens/sellitems/seller_subCat.dart';
 import 'package:pet_adoption/services/firebase_services.dart';
+import 'package:provider/provider.dart';
 
 class SellerCategory extends StatelessWidget {
   static const String id = 'seller-category-list-screen';
@@ -11,6 +14,8 @@ class SellerCategory extends StatelessWidget {
   Widget build(BuildContext context) {
 
     FirebaseService _service = FirebaseService();
+
+    var _catProvider = Provider.of<CategoryProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -44,7 +49,7 @@ class SellerCategory extends StatelessWidget {
                     child: ListTile(
                       onTap: (){
                         if(doc['subCat']==null){
-                          return print('No sub Categories');
+                          return Navigator.pushNamed(context, SellerDogForm.id);
                         }
                         Navigator.pushNamed(context, SellerSubCatList.id,arguments: doc);
                       },
