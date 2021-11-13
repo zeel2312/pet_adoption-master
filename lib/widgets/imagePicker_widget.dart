@@ -11,17 +11,16 @@ class ImagePickerWidget extends StatefulWidget {
 }
 
 class _ImagePickerWidgetState extends State<ImagePickerWidget> {
-
   File _image;
   final picker = ImagePicker();
 
-  Future getImage() async{
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
     setState(() {
-      if (pickedFile != null){
+      if (pickedFile != null) {
         _image = File(pickedFile.path);
-      }else{
+      } else {
         print('No image selected');
       }
     });
@@ -29,9 +28,6 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
 
   @override
   Widget build(BuildContext context) {
-
-
-
     return Dialog(
       child: Column(
         children: [
@@ -52,17 +48,35 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
                   height: 120,
                   width: MediaQuery.of(context).size.width,
                   child: FittedBox(
-                    child: _image == null ? Icon(
-                      CupertinoIcons.photo_on_rectangle,
-                      color: Colors.grey,
-                    ) : Image.file(_image),
+                    child: _image == null
+                        ? Icon(
+                            CupertinoIcons.photo_on_rectangle,
+                            color: Colors.grey,
+                          )
+                        : Image.file(_image),
                   ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                        child: NeumorphicButton(
+                        ),
+                    ),
+                    SizedBox(width: 10,),
+                    Expanded(child: NeumorphicButton()),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
                 ),
                 Row(
                   children: [
                     Expanded(
                       child: NeumorphicButton(
-                        onPressed: getImage,
+                          onPressed: getImage,
                           style: NeumorphicStyle(
                               color: Theme.of(context).primaryColor),
                           child: Text(
