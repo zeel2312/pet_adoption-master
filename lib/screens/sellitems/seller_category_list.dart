@@ -48,6 +48,10 @@ class SellerCategory extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: ListTile(
                       onTap: (){
+                        
+                        _catProvider.getCategory(doc['catName']);
+                        _catProvider.getCatSnapshot(doc);
+
                         if(doc['subCat']==null){
                           return Navigator.pushNamed(context, SellerDogForm.id);
                         }

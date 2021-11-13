@@ -1,9 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:pet_adoption/provider/cat_provider.dart';
+import 'package:provider/provider.dart';
 
-class SellerDogForm extends StatelessWidget {
+class SellerDogForm extends StatefulWidget {
   static const String id = 'dog-form';
+
+  @override
+  _SellerDogFormState createState() => _SellerDogFormState();
+}
+
+class _SellerDogFormState extends State<SellerDogForm> {
   final _formKey = GlobalKey<FormState>();
+
+  var _brandController = TextEditingController();
+  // var _ageController = TextEditingController();
+  var _infoController = TextEditingController();
 
   validate(){
     if(_formKey.currentState.validate()){
@@ -14,12 +26,14 @@ class SellerDogForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    Widget _appBar(title){
+    var _catProvider = Provider.of<CategoryProvider>(context);
+
+    Widget _appBar(){
       return AppBar(
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
         automaticallyImplyLeading: false,
-        title: Text('$title > breed',style: TextStyle(color: Colors.black,fontSize: 15),),
+        title: Text('${_catProvider.selectedCategory} > breeds',style: TextStyle(color: Colors.black,fontSize: 15),),
       );
     }
 
@@ -27,19 +41,28 @@ class SellerDogForm extends StatelessWidget {
       return Dialog(
             child: Column(
               mainAxisSize: MainAxisSize.min,
+
               children: [
-                _appBar('Dogs'),
-                ListView.builder(itemBuilder: (BuildContext context,int index){
-                  return ListTile(
-                    title:Text('gdgd') ,
-                  );
-                }),
+                _appBar(),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: _catProvider.doc['breed'].length,
+                      itemBuilder: (BuildContext context,int index){
+                        return ListTile(
+                          onTap: (){
+                            setState(() {
+                              _brandController.text = _catProvider.doc['breed'][index];
+                            });
+                            Navigator.pop(context);
+                          },
+                          title: Text(_catProvider.doc['breed'][index]),
+                        );
+                      }),
+                ),
               ],
             ),
       );
     }
-
-
 
 
 
@@ -62,8 +85,10 @@ class SellerDogForm extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('PET'),
+                Text('DOG',style: TextStyle(fontWeight: FontWeight.bold),),
                 InkWell(
                   onTap: (){
                     showDialog(context: context, builder: (BuildContext context){
@@ -71,8 +96,9 @@ class SellerDogForm extends StatelessWidget {
                     });
                   },
                   child: TextFormField(
+                    controller: _brandController,
                     enabled: false,
-                    decoration: InputDecoration(labelText: 'Animal/Bird'),
+                    decoration: InputDecoration(labelText: 'Breed'),
                     validator: (value){
                       if(value.isEmpty){
                         return 'Please complete required field';
@@ -80,7 +106,35 @@ class SellerDogForm extends StatelessWidget {
                       return null;
                     },
                   ),
-                )
+                ),
+                //see what is the output once it is done
+                // TextFormField(
+                //   controller: _ageController,
+                //   keyboardType: TextInputType.number,
+                //   decoration: InputDecoration(
+                //     labelText: 'Age',
+                //   ),
+                //   validator: (value){
+                //     if(value.isEmpty){
+                //       return null;//'Please complete required field'
+                //     }
+                //     return null;
+                //   },
+                // ),
+                TextFormField(
+                  controller: _infoController,
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                    labelText: 'Information',
+                  ),
+                  validator: (value){
+                    if(value.isEmpty){
+                      return 'Please complete required field';//'Please complete required field'
+                    }
+                    return null;
+                  },
+                ),
+
               ],
             ),
           ),
