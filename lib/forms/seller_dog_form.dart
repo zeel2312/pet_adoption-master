@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:pet_adoption/provider/cat_provider.dart';
 import 'package:pet_adoption/services/firebase_services.dart';
+import 'package:pet_adoption/widgets/imagePicker_widget.dart';
 import 'package:provider/provider.dart';
 
 class SellerDogForm extends StatefulWidget {
@@ -36,6 +37,12 @@ class _SellerDogFormState extends State<SellerDogForm> {
   validate() {
     if (_formKey.currentState.validate()) {
       print('Validated');
+    }else{
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Please complete required fields..'),
+          ),
+      );
     }
   }
 
@@ -238,7 +245,10 @@ class _SellerDogFormState extends State<SellerDogForm> {
                   ),
                   InkWell(
                     onTap: (){
-
+                      
+                      showDialog(context: context, builder: (BuildContext context){
+                        return ImagePickerWidget();
+                      });
                     },
                     child: Neumorphic(
                       child: Container(
@@ -266,7 +276,7 @@ class _SellerDogFormState extends State<SellerDogForm> {
                 child: Padding(
                   padding: const EdgeInsets.all(4.0),
                   child: Text(
-                    'Next',
+                    'Save',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
