@@ -44,6 +44,7 @@ dependencies:
   csc_picker: ^0.2.5
   flutter_neumorphic: ^3.1.0
   provider: ^5.0.0
+  image_picker: ^0.7.5+3
 
 dev_dependencies:
   flutter_test:
