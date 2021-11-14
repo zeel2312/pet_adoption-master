@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:galleryimage/galleryimage.dart';
 import 'package:pet_adoption/provider/cat_provider.dart';
 import 'package:pet_adoption/services/firebase_services.dart';
 import 'package:pet_adoption/widgets/imagePicker_widget.dart';
@@ -19,24 +20,35 @@ class _SellerDogFormState extends State<SellerDogForm> {
 
   var _breedController = TextEditingController();
   var _careController = TextEditingController();
-
   // var _ageController = TextEditingController();
   var _descriptionController = TextEditingController();
   var _addressController = TextEditingController();
 
-  @override
-  void initState() {
-    _service.getUserData().then((value) {
-      setState(() {
-        _addressController.text = value['address'];
-      });
-    });
-    super.initState();
-  }
 
-  validate() {
+
+
+
+  validate(CategoryProvider provider) {
     if (_formKey.currentState.validate()) {
-      print('Validated');
+
+      if(provider.urlList.isNotEmpty){
+        provider.dataToFirestore.addAll({
+          'category' : provider.selectedCategory,
+          'breed' : _breedController.text,
+          'care' : _careController.text,
+          'description' : _descriptionController.text,
+          'address' : _addressController.text,
+          'sellerUid' : _service.user.uid,
+          'images' : provider.urlList,
+        });
+
+      }else{
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Image not uploaded'),
+          ),
+        );
+      }
     }else{
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -50,8 +62,19 @@ class _SellerDogFormState extends State<SellerDogForm> {
     'For Adoption',
     'Need Treatment',
     'Finding Temporary Home',
-    'Finding Trainer'
+    'Finding Trainer',
+    'Missing Pet'
   ];
+
+  @override
+  void initState() {
+    _service.getUserData().then((value) {
+      setState(() {
+        _addressController.text = value['address'];
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -244,9 +267,18 @@ class _SellerDogFormState extends State<SellerDogForm> {
                     },
                   ),
 
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade300,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: GalleryImage(
+                      imageUrls: _catProvider.urlList,
+                    ),
+                  ),
+                  SizedBox(height: 10,),
                   InkWell(
                     onTap: (){
-                      
                       showDialog(context: context, builder: (BuildContext context){
                         return ImagePickerWidget();
                       });
@@ -254,7 +286,7 @@ class _SellerDogFormState extends State<SellerDogForm> {
                     child: Neumorphic(
                       child: Container(
                         height: 40,
-                        child: Center(child: Text('Upload image'),),
+                        child: Center(child: Text(_catProvider.urlList.length>0 ? 'Upload images' : 'Upload image'),),
                       ),
                     ),
                   ),
@@ -284,7 +316,8 @@ class _SellerDogFormState extends State<SellerDogForm> {
                   ),
                 ),
                 onPressed: () {
-                  validate();
+                  validate(_catProvider);
+                  print(_catProvider.dataToFirestore);
                 },
               ),
             ),

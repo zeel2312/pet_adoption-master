@@ -5,7 +5,8 @@ class CategoryProvider with ChangeNotifier{
 
   DocumentSnapshot doc;
   String selectedCategory;
-  List<String> urlList =[];
+  List<String> urlList = [];
+  Map<String,dynamic> dataToFirestore = {};
 
   getCategory(selectedCat){
     this.selectedCategory = selectedCat;
@@ -19,6 +20,11 @@ class CategoryProvider with ChangeNotifier{
 
    getImages(url){
     this.urlList.add(url);
+    notifyListeners();
+  }
+
+  getData(data){
+    this.dataToFirestore = data;
     notifyListeners();
   }
 }

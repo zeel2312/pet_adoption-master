@@ -34,18 +34,17 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
 
   @override
   Widget build(BuildContext context) {
+
     var _provider = Provider.of<CategoryProvider>(context);
 
     Future<String> uploadFile() async {
       File file = File(_image.path);
-      String imageName = 'productImage/${DateTime
-          .now()
-          .microsecondsSinceEpoch}';
+      String imageName = 'productImage/${DateTime.now().microsecondsSinceEpoch}';
       String downloadUrl;
       try {
         await FirebaseStorage.instance.ref(imageName).putFile(file);
         downloadUrl = await FirebaseStorage.instance
-            .ref('users/123/avatar.jpg')
+            .ref(imageName)
             .getDownloadURL();
         if (downloadUrl != null) {
           setState(() {
@@ -67,6 +66,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
 
     return Dialog(
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           AppBar(
             elevation: 1,
@@ -117,6 +117,10 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
                 ),
                 if(_provider.urlList.length>0)
                 Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
                   child: GalleryImage(
                     imageUrls: _provider.urlList,
                   ),
@@ -176,7 +180,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
                                   .of(context)
                                   .primaryColor),
                           child: Text(
-                            'Upload image',
+                            _provider.urlList.length > 0 ? 'Upload more images' :  'Upload image',
                             textAlign: TextAlign.center,
                             style: TextStyle(color: Colors.white),
                           )),
