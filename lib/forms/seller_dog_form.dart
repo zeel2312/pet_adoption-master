@@ -243,6 +243,7 @@ class _SellerDogFormState extends State<SellerDogForm> {
                       return null;
                     },
                   ),
+
                   InkWell(
                     onTap: (){
                       
