@@ -44,29 +44,43 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
             padding: const EdgeInsets.all(10.0),
             child: Column(
               children: [
-                Container(
-                  height: 120,
-                  width: MediaQuery.of(context).size.width,
-                  child: FittedBox(
-                    child: _image == null
-                        ? Icon(
-                            CupertinoIcons.photo_on_rectangle,
-                            color: Colors.grey,
-                          )
-                        : Image.file(_image),
-                  ),
+                Stack(
+                  children: [
+                    Positioned(child: IconButton(icon: Icon(Icons.clear),),),
+                    Container(
+                      height: 120,
+                      width: MediaQuery.of(context).size.width,
+                      child: FittedBox(
+                        child: _image == null
+                            ? Icon(
+                                CupertinoIcons.photo_on_rectangle,
+                                color: Colors.grey,
+                              )
+                            : Image.file(_image),
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
                 Row(
                   children: [
                     Expanded(
                         child: NeumorphicButton(
+                          style: NeumorphicStyle(color: Colors.green),
+                          onPressed: (){},
+                          child: Text('Save',textAlign: TextAlign.center,),
                         ),
                     ),
                     SizedBox(width: 10,),
-                    Expanded(child: NeumorphicButton()),
+                    Expanded(
+                      child: NeumorphicButton(
+                        style: NeumorphicStyle(color: Colors.red),
+                        onPressed: (){},
+                        child: Text('Cancel',textAlign: TextAlign.center,),
+                      ),
+                    ),
                   ],
                 ),
                 SizedBox(
