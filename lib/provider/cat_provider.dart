@@ -5,6 +5,7 @@ class CategoryProvider with ChangeNotifier{
 
   DocumentSnapshot doc;
   String selectedCategory;
+  List<String> urlList =[];
 
   getCategory(selectedCat){
     this.selectedCategory = selectedCat;
@@ -15,4 +16,10 @@ class CategoryProvider with ChangeNotifier{
     this.doc = snapshot;
     notifyListeners();
   }
+
+   getImages(url){
+    this.urlList.add(url);
+    notifyListeners();
+  }
 }
+
