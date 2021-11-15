@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:galleryimage/galleryimage.dart';
+import 'package:pet_adoption/forms/user_review_screen.dart';
 import 'package:pet_adoption/provider/cat_provider.dart';
 import 'package:pet_adoption/services/firebase_services.dart';
 import 'package:pet_adoption/widgets/imagePicker_widget.dart';
@@ -22,7 +23,6 @@ class _SellerDogFormState extends State<SellerDogForm> {
   var _careController = TextEditingController();
   // var _ageController = TextEditingController();
   var _descriptionController = TextEditingController();
-  var _addressController = TextEditingController();
 
 
 
@@ -37,10 +37,14 @@ class _SellerDogFormState extends State<SellerDogForm> {
           'breed' : _breedController.text,
           'care' : _careController.text,
           'description' : _descriptionController.text,
-          'address' : _addressController.text,
           'sellerUid' : _service.user.uid,
           'images' : provider.urlList,
         });
+
+        print(provider.dataToFirestore);
+
+        Navigator.pushNamed(context, UserReviewScreen.id);
+
 
       }else{
         ScaffoldMessenger.of(context).showSnackBar(
@@ -67,13 +71,16 @@ class _SellerDogFormState extends State<SellerDogForm> {
   ];
 
   @override
-  void initState() {
-    _service.getUserData().then((value) {
-      setState(() {
-        _addressController.text = value['address'];
-      });
+  void didChangeDependencies() {
+    var _catProvider = Provider.of<CategoryProvider>(context);
+
+    setState(() {
+      _breedController.text = _catProvider.dataToFirestore.isEmpty ? null :_catProvider.dataToFirestore['breed'];
+      _careController.text = _catProvider.dataToFirestore.isEmpty ? null :_catProvider.dataToFirestore['care'];
+      _descriptionController.text = _catProvider.dataToFirestore.isEmpty ? null :_catProvider.dataToFirestore['description'];
+
     });
-    super.initState();
+    super.didChangeDependencies();
   }
 
   @override
@@ -250,29 +257,17 @@ class _SellerDogFormState extends State<SellerDogForm> {
                   SizedBox(
                     height: 10,
                   ),
-                  TextFormField(
-                    enabled: false,
-                    minLines: 2,
-                    maxLines: 4,
-                    controller: _addressController,
-                    maxLength: 500,
-                    decoration: InputDecoration(
-                      labelText: 'Address',
-                    ),
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Please complete required field'; //'Please complete required field'
-                      }
-                      return null;
-                    },
-                  ),
 
                   Container(
+                    width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                       color: Colors.grey.shade300,
                       borderRadius: BorderRadius.circular(4),
                     ),
-                    child: GalleryImage(
+                    child: _catProvider.urlList.length==0 ? Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text('No image selected',textAlign: TextAlign.center,),
+                    ) :  GalleryImage(
                       imageUrls: _catProvider.urlList,
                     ),
                   ),
@@ -284,6 +279,9 @@ class _SellerDogFormState extends State<SellerDogForm> {
                       });
                     },
                     child: Neumorphic(
+                      style: NeumorphicStyle(
+                        color: Theme.of(context).primaryColor
+                      ),
                       child: Container(
                         height: 40,
                         child: Center(child: Text(_catProvider.urlList.length>0 ? 'Upload images' : 'Upload image'),),

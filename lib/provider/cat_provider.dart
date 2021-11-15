@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:pet_adoption/services/firebase_services.dart';
 
 class CategoryProvider with ChangeNotifier{
+
+  FirebaseService _service = FirebaseService();
 
   DocumentSnapshot doc;
   String selectedCategory;
@@ -27,5 +30,10 @@ class CategoryProvider with ChangeNotifier{
     this.dataToFirestore = data;
     notifyListeners();
   }
+
+  getUserDetails(){
+    _service.getUserData();
+  }
+
 }
 
