@@ -16,8 +16,8 @@ import 'login_screen.dart';
 class LocationScreen extends StatefulWidget {
   static const String id = 'location-screen';
 
-  final bool locationChanging;
-  LocationScreen({this.locationChanging});
+  final String popScreen;
+  LocationScreen({this.popScreen});
 
 
 
@@ -76,14 +76,14 @@ class _LocationScreenState extends State<LocationScreen> {
   @override
   Widget build(BuildContext context) {
 
-    if(widget.locationChanging==null){
+    if(widget.popScreen==null){
       _service.users
           .doc(_service.user.uid)
           .get()
           .then((DocumentSnapshot document) {
         if (document.exists) {
-          if(mounted){
-            if (document['address'] != null) {
+            if (document['address']!=null) {
+              if(mounted){
               setState(() {
                 _loading = true;
               });
@@ -113,7 +113,7 @@ class _LocationScreenState extends State<LocationScreen> {
     );
 
     showBottomSheet(context) {
-      getLocation().then((Location) {
+      getLocation().then((location) {
         if (location != null) {
           progressDialog.dismiss();
           showModalBottomSheet(
@@ -177,9 +177,9 @@ class _LocationScreenState extends State<LocationScreen> {
                               'location':
                                   GeoPoint(value.latitude, value.longitude),
                               'address': _address,
-                            }, context).then((value) {
+                            }, context,widget.popScreen).then((value) {
                               progressDialog.dismiss();
-                              Navigator.pushNamed(context, HomeScreen.id);
+                              //return Navigator.pushNamed(context, widget.popScreen);
                             });
                           }
                         });
@@ -242,7 +242,7 @@ class _LocationScreenState extends State<LocationScreen> {
                               'state': stateValue,
                               'city': cityValue,
                               'country': countryValue,
-                            }, context);
+                            }, context,widget.popScreen);
                           }
                         },
                       ),
@@ -328,7 +328,7 @@ class _LocationScreenState extends State<LocationScreen> {
                                             'address': _address,
                                             'location': GeoPoint(value.latitude,
                                                 value.longitude),
-                                          }, context);
+                                          }, context,widget.popScreen);
                                         }
                                       });
                                     },

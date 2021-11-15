@@ -34,6 +34,7 @@ class _SellerDogFormState extends State<SellerDogForm> {
       if(provider.urlList.isNotEmpty){
         provider.dataToFirestore.addAll({
           'category' : provider.selectedCategory,
+          'subCat' : provider.selectedSubCat,
           'breed' : _breedController.text,
           'care' : _careController.text,
           'description' : _descriptionController.text,
@@ -307,7 +308,7 @@ class _SellerDogFormState extends State<SellerDogForm> {
                 child: Padding(
                   padding: const EdgeInsets.all(4.0),
                   child: Text(
-                    'Save',
+                    'Next',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),

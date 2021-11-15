@@ -23,7 +23,9 @@ class PhoneAuthService{
           .set({
         'uid': user.uid,
         'mobile' : user.phoneNumber,
-        'email': user.email
+        'email': user.email,
+        'name' : null,
+        'address' : null
       })
           .then((value) {
         Navigator.pushReplacementNamed(context, LocationScreen.id);

@@ -7,12 +7,20 @@ class CategoryProvider with ChangeNotifier{
   FirebaseService _service = FirebaseService();
 
   DocumentSnapshot doc;
+  DocumentSnapshot userDetails;
   String selectedCategory;
+  String selectedSubCat;
   List<String> urlList = [];
   Map<String,dynamic> dataToFirestore = {};
 
+
   getCategory(selectedCat){
     this.selectedCategory = selectedCat;
+    notifyListeners();
+  }
+
+  getSubCategory(selectedsubCat){
+    this.selectedSubCat = selectedsubCat;
     notifyListeners();
   }
 
@@ -32,7 +40,16 @@ class CategoryProvider with ChangeNotifier{
   }
 
   getUserDetails(){
-    _service.getUserData();
+    _service.getUserData().then((value){
+      this.userDetails = value;
+      notifyListeners();
+    });
+  }
+
+  clearData(){
+    this.urlList = [];
+    dataToFirestore = {};
+    notifyListeners();
   }
 
 }
