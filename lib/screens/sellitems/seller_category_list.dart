@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:pet_adoption/forms/seller_dog_form.dart';
+import 'package:pet_adoption/forms/seller_pet_form.dart';
 import 'package:pet_adoption/provider/cat_provider.dart';
 import 'package:pet_adoption/screens/categories/subCat_screen.dart';
 import 'package:pet_adoption/screens/sellitems/seller_subCat.dart';
@@ -53,7 +53,7 @@ class SellerCategory extends StatelessWidget {
                         _catProvider.getCatSnapshot(doc);
 
                         if(doc['subCat']==null){
-                          return Navigator.pushNamed(context, SellerDogForm.id);
+                          return Navigator.pushNamed(context, SellerPetForm.id);
                         }
                         Navigator.pushNamed(context, SellerSubCatList.id,arguments: doc);
                       },

@@ -7,58 +7,53 @@ import 'package:pet_adoption/services/firebase_services.dart';
 import 'package:pet_adoption/widgets/imagePicker_widget.dart';
 import 'package:provider/provider.dart';
 
-class SellerDogForm extends StatefulWidget {
-  static const String id = 'dog-form';
+class SellerPetForm extends StatefulWidget {
+  static const String id = 'pet-form';
 
   @override
-  _SellerDogFormState createState() => _SellerDogFormState();
+  _SellerPetFormState createState() => _SellerPetFormState();
 }
 
-class _SellerDogFormState extends State<SellerDogForm> {
+class _SellerPetFormState extends State<SellerPetForm> {
   final _formKey = GlobalKey<FormState>();
 
   FirebaseService _service = FirebaseService();
 
   var _breedController = TextEditingController();
   var _careController = TextEditingController();
+
   // var _ageController = TextEditingController();
   var _descriptionController = TextEditingController();
 
-
-
-
-
   validate(CategoryProvider provider) {
     if (_formKey.currentState.validate()) {
-
-      if(provider.urlList.isNotEmpty){
+      if (provider.urlList.isNotEmpty) {
         provider.dataToFirestore.addAll({
-          'category' : provider.selectedCategory,
-          'subCat' : provider.selectedSubCat,
-          'breed' : _breedController.text,
-          'care' : _careController.text,
-          'description' : _descriptionController.text,
-          'sellerUid' : _service.user.uid,
-          'images' : provider.urlList,
+          'category': provider.selectedCategory,
+          'subCat': provider.selectedSubCat,
+          'breed': _breedController.text,
+          'care': _careController.text,
+          'description': _descriptionController.text,
+          'sellerUid': _service.user.uid,
+          'images': provider.urlList,
+          'postedAt' : DateTime.now().microsecondsSinceEpoch,
         });
 
         print(provider.dataToFirestore);
 
         Navigator.pushNamed(context, UserReviewScreen.id);
-
-
-      }else{
+      } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Image not uploaded'),
           ),
         );
       }
-    }else{
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Please complete required fields..'),
-          ),
+        const SnackBar(
+          content: Text('Please complete required fields..'),
+        ),
       );
     }
   }
@@ -76,16 +71,22 @@ class _SellerDogFormState extends State<SellerDogForm> {
     var _catProvider = Provider.of<CategoryProvider>(context);
 
     setState(() {
-      _breedController.text = _catProvider.dataToFirestore.isEmpty ? null :_catProvider.dataToFirestore['breed'];
-      _careController.text = _catProvider.dataToFirestore.isEmpty ? null :_catProvider.dataToFirestore['care'];
-      _descriptionController.text = _catProvider.dataToFirestore.isEmpty ? null :_catProvider.dataToFirestore['description'];
-
+      _breedController.text = _catProvider.dataToFirestore.isEmpty
+          ? null
+          : _catProvider.dataToFirestore['breed'];
+      _careController.text = _catProvider.dataToFirestore.isEmpty
+          ? null
+          : _catProvider.dataToFirestore['care'];
+      _descriptionController.text = _catProvider.dataToFirestore.isEmpty
+          ? null
+          : _catProvider.dataToFirestore['description'];
     });
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
+    // var _provider = Provider.of<CategoryProvider>(context);
     var _catProvider = Provider.of<CategoryProvider>(context);
 
     Widget _appBar(title, fieldValue) {
@@ -94,7 +95,9 @@ class _SellerDogFormState extends State<SellerDogForm> {
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
         automaticallyImplyLeading: false,
-        shape: Border(bottom: BorderSide(color: Colors.grey.shade300),),
+        shape: Border(
+          bottom: BorderSide(color: Colors.grey.shade300),
+        ),
         title: Text(
           '$title > $fieldValue',
           style: TextStyle(color: Colors.black, fontSize: 15),
@@ -110,7 +113,7 @@ class _SellerDogFormState extends State<SellerDogForm> {
             _appBar(_catProvider.selectedCategory, 'breed'),
             Expanded(
               child: ListView.builder(
-                shrinkWrap: true,
+                  shrinkWrap: true,
                   itemCount: _catProvider.doc['breed'].length,
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
@@ -137,17 +140,17 @@ class _SellerDogFormState extends State<SellerDogForm> {
           children: [
             _appBar(_catProvider.selectedCategory, fieldValue),
             ListView.builder(
-              shrinkWrap: true,
+                shrinkWrap: true,
                 itemCount: list.length,
                 itemBuilder: (BuildContext context, int index) {
-              return ListTile(
-                onTap: () {
-                  textController.text = list[index];
-                  Navigator.pop(context);
-                },
-                title: Text(list[index]),
-              );
-            })
+                  return ListTile(
+                    onTap: () {
+                      textController.text = list[index];
+                      Navigator.pop(context);
+                    },
+                    title: Text(list[index]),
+                  );
+                })
           ],
         ),
       );
@@ -175,8 +178,8 @@ class _SellerDogFormState extends State<SellerDogForm> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'DOG',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    '${_catProvider.selectedCategory}',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   InkWell(
                     onTap: () {
@@ -198,16 +201,18 @@ class _SellerDogFormState extends State<SellerDogForm> {
                       },
                     ),
                   ),
-                  SizedBox(height: 10,),
+                  SizedBox(
+                    height: 10,
+                  ),
                   InkWell(
                     onTap: () {
                       showDialog(
                           context: context,
                           builder: (BuildContext context) {
                             return _listView(
-                              fieldValue: 'Care',
-                              list: _careList,
-                              textController: _careController);
+                                fieldValue: 'Care',
+                                list: _careList,
+                                textController: _careController);
                           });
                     },
                     child: TextFormField(
@@ -265,27 +270,42 @@ class _SellerDogFormState extends State<SellerDogForm> {
                       color: Colors.grey.shade300,
                       borderRadius: BorderRadius.circular(4),
                     ),
-                    child: _catProvider.urlList.length==0 ? Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Text('No image selected',textAlign: TextAlign.center,),
-                    ) :  GalleryImage(
-                      imageUrls: _catProvider.urlList,
-                    ),
+                    child: _catProvider.urlList.length == 0
+                        ? Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Text(
+                              'No image selected',
+                              textAlign: TextAlign.center,
+                            ),
+                          )
+                        : GalleryImage(
+                            imageUrls: _catProvider.urlList,
+                          ),
                   ),
-                  SizedBox(height: 10,),
+                  SizedBox(
+                    height: 10,
+                  ),
                   InkWell(
-                    onTap: (){
-                      showDialog(context: context, builder: (BuildContext context){
-                        return ImagePickerWidget();
-                      });
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return ImagePickerWidget();
+                          });
                     },
                     child: Neumorphic(
                       style: NeumorphicStyle(
-                        color: Theme.of(context).primaryColor
-                      ),
+                          color: Theme.of(context).primaryColor),
                       child: Container(
                         height: 40,
-                        child: Center(child: Text(_catProvider.urlList.length>0 ? 'Upload images' : 'Upload image'),),
+                        child: Center(
+                          child: Text(
+                            _catProvider.urlList.length > 0
+                                ? 'Upload images'
+                                : 'Upload image',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
                       ),
                     ),
                   ),

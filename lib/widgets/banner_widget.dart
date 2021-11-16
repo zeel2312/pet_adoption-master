@@ -28,7 +28,7 @@ class BannerWidget extends StatelessWidget {
                             height: 10,
                           ),
                           Text(
-                            'DOGS',
+                            'PETS',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
@@ -49,7 +49,7 @@ class BannerWidget extends StatelessWidget {
                                 repeatForever: true,
                                 isRepeatingAnimation: true,
                                 animatedTexts: [
-                                  FadeAnimatedText('I Love Dogs',
+                                  FadeAnimatedText('I Love Pets',
                                     duration: Duration(seconds: 4),
                                   ),
                                 ],
@@ -77,13 +77,13 @@ class BannerWidget extends StatelessWidget {
                     Expanded(child: NeumorphicButton(
                       onPressed: (){},
                       style: NeumorphicStyle(color: Colors.white),
-                      child: Text('Adopt Dog',textAlign: TextAlign.center,),
+                      child: Text('Adopt Pet',textAlign: TextAlign.center,),
                     ),),
                     SizedBox(width: 20,),
                     Expanded(child: NeumorphicButton(
                       onPressed: (){},
                       style: NeumorphicStyle(color: Colors.white),
-                      child: Text('Shelter Dog',textAlign: TextAlign.center,),
+                      child: Text('Shelter Pet',textAlign: TextAlign.center,),
                     ),),
                   ],
                 ),

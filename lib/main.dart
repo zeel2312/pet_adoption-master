@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pet_adoption/forms/forms_screen.dart';
-import 'package:pet_adoption/forms/seller_dog_form.dart';
+import 'package:pet_adoption/forms/seller_pet_form.dart';
 import 'package:pet_adoption/forms/user_review_screen.dart';
 import 'package:pet_adoption/provider/cat_provider.dart';
 import 'package:pet_adoption/screens/authentication/email_auth_screen.dart';
@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
         MainScreen.id: (context) => MainScreen(),
         SellerSubCatList.id: (context) => SellerSubCatList(),
         SellerCategory.id: (context) => SellerCategory(),
-        SellerDogForm.id: (context) => SellerDogForm(),
+        SellerPetForm.id: (context) => SellerPetForm(),
         UserReviewScreen.id: (context) => UserReviewScreen(),
         FormsScreen.id: (context) => FormsScreen(),
       },

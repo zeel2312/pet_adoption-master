@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pet_adoption/screens/product_list.dart';
 import 'package:pet_adoption/widgets/banner_widget.dart';
 import 'package:pet_adoption/widgets/category_widget.dart';
 import 'package:pet_adoption/widgets/custom_appBar.dart';
-
 import 'location_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,53 +19,35 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey.shade300,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(56),
+        preferredSize: Size.fromHeight(100),
         child: SafeArea(
           child: CustomAppBar(),
         ),
       ),
-      body: Column(
-        children: [
-          Container(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: SizedBox(
-                      height: 40,
-                      child: TextField(
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.search,),
-                          labelText: 'Find cats, dogs and many more',
-                          labelStyle: TextStyle(fontSize: 12),
-                          contentPadding: EdgeInsets.only(left: 10,right: 10),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 10,),
-                  Icon(Icons.notifications_none),
-                  SizedBox(width: 10,),
-                ],
+      body: SingleChildScrollView(
+        physics: ScrollPhysics(),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
+                child: Column(
+                  children: [
+                    BannerWidget(),
+                    CategoryWidget(),
+                  ],
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
-            child: Column(
-              children: [
-                BannerWidget(),
-                CategoryWidget(),
-              ],
-            ),
-          ),
-        ],
+            SizedBox(height: 10,),
+            ProductList(),
+
+          ],
+        ),
       ),
     );
   }

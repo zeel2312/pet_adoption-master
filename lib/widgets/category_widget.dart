@@ -25,12 +25,12 @@ class CategoryWidget extends StatelessWidget {
             }
 
             return Container(
-              height: 200,
+              height: 130,
               child: Column(
                 children: [
                   Row(
                     children: [
-                      Expanded(child: Text('Categories')),
+                      Expanded(child: Text('Categories',style: TextStyle(fontWeight: FontWeight.bold),),),
                       TextButton(
                         onPressed: (){
                           Navigator.pushNamed(context, CategoryListScreen.id);
@@ -60,12 +60,11 @@ class CategoryWidget extends StatelessWidget {
                             width: 60,
                             height: 50,
                             child: Column(
-                              children: [
+                              children:[
                                 Image.network(doc['image']),
                                 Flexible(
                                   child: Text(
                                     doc['catName'].toUpperCase(),
-                                    maxLines: 2,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(fontSize: 10),
                                   ),

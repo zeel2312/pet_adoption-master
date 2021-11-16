@@ -29,10 +29,7 @@ class _UserReviewScreenState extends State<UserReviewScreen> {
   var _addressController = TextEditingController();
 
   Future<void> updateUser(provider, Map<String, dynamic> data, context) {
-    return _service.users
-        .doc(_service.user.uid)
-        .update(data)
-        .then(
+    return _service.users.doc(_service.user.uid).update(data).then(
       (value) {
         saveProductToDb(provider, context);
       },
@@ -46,20 +43,18 @@ class _UserReviewScreenState extends State<UserReviewScreen> {
   }
 
   Future<void> saveProductToDb(CategoryProvider provider, context) {
-    return _service.products
-        .add(provider.dataToFirestore)
-        .then(
-          (value) {
-            provider.clearData();
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('We have received your data and will be notified once get approved'),
-              ),
-            );
-            Navigator.pushReplacementNamed(context, MainScreen.id);
-          },
-        )
-        .catchError((error) {
+    return _service.products.add(provider.dataToFirestore).then(
+      (value) {
+        provider.clearData();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+                'We have received your data and will be notified once get approved'),
+          ),
+        );
+        Navigator.pushReplacementNamed(context, MainScreen.id);
+      },
+    ).catchError((error) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Failed to update location'),
@@ -136,7 +131,6 @@ class _UserReviewScreenState extends State<UserReviewScreen> {
                             style: TextStyle(color: Colors.white),
                           ),
                           onPressed: () {
-
                             updateUser(
                                     _provider,
                                     {
@@ -208,7 +202,7 @@ class _UserReviewScreenState extends State<UserReviewScreen> {
             }
 
             _nameController.text = snapshot.data['name'];
-            _phoneController.text = snapshot.data['mobile'].substring(3);
+            _phoneController.text = snapshot.data['mobile'];
             _emailController.text = snapshot.data['email'];
             _addressController.text = snapshot.data['address'];
 
@@ -268,7 +262,10 @@ class _UserReviewScreenState extends State<UserReviewScreen> {
                           child: TextFormField(
                             controller: _countryCodeController,
                             enabled: false,
-                            decoration: InputDecoration(labelText: 'Country'),
+                            decoration: InputDecoration(
+                              labelText: 'Country',
+                              helperText: 'Country Code',
+                            ),
                           ),
                         ),
                         SizedBox(
@@ -281,6 +278,7 @@ class _UserReviewScreenState extends State<UserReviewScreen> {
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
                               labelText: 'Mobile number',
+                              helperText: 'Enter your 10 Digit mobile number',
                             ),
                             maxLength: 10,
                             validator: (value) {
@@ -332,12 +330,16 @@ class _UserReviewScreenState extends State<UserReviewScreen> {
                             Icons.arrow_forward_ios,
                             size: 14,
                           ),
-                          onPressed: (){
-                            Navigator.push(context, MaterialPageRoute (
-                              builder: (BuildContext context) => LocationScreen(
-                                popScreen: UserReviewScreen.id,
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    LocationScreen(
+                                  popScreen: UserReviewScreen.id,
+                                ),
                               ),
-                            ),);
+                            );
                           },
                         ),
                       ],
