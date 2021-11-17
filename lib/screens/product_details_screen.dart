@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:like_button/like_button.dart';
 import 'package:pet_adoption/provider/product_provider.dart';
 import 'package:photo_view/photo_view.dart';
@@ -316,6 +317,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 Expanded(
                                   child: ListTile(
                                     title: Text(
+                                      _productProvider.sellerDetails==null ? '':
                                       _productProvider.sellerDetails['name']
                                           .toUpperCase(),
                                       style: TextStyle(
@@ -347,16 +349,88 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 fontSize: 16,
                               ),
                             ),
-                            SizedBox(height: 10,),
+                            SizedBox(
+                              height: 10,
+                            ),
                             Container(
                               height: 200,
-                              child: Center(child: Text('Seller Location'),),
+                              color: Colors.grey.shade300,
+                              child: Center(
+                                child: Text('Seller Location'),
+                              ),
                             ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    'AD ID: ${data['postedAt']}',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16),
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: (){},
+                                  child: Text(
+                                    'REPORT THIS AD',
+                                    style: TextStyle(color: Colors.blue),
+                                  ),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 80,
+                            )
                           ],
                         ),
                       ),
               ],
             ),
+          ),
+        ),
+      ),
+      bottomSheet: BottomAppBar(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              Expanded(child: NeumorphicButton(
+                onPressed: (){},
+                style: NeumorphicStyle(color: Theme.of(context).primaryColor),
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(CupertinoIcons.chat_bubble,size: 16,color: Colors.white,),
+                      SizedBox(width: 10,),
+                      Text('Chat',style: TextStyle(color: Colors.white),)
+                    ],
+                  ),
+                ),
+              ),),
+              SizedBox(width: 20,),
+              Expanded(child: NeumorphicButton(
+                onPressed: (){},
+                style: NeumorphicStyle(color: Theme.of(context).primaryColor),
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(CupertinoIcons.phone,size: 16,color: Colors.white,),
+                      SizedBox(width: 10,),
+                      Text('Call',style: TextStyle(color: Colors.white),)
+                    ],
+                  ),
+                ),
+              ),),
+            ],
           ),
         ),
       ),
