@@ -248,7 +248,7 @@ class _SellerPetFormState extends State<SellerPetForm> {
                     controller: _descriptionController,
                     // keyboardType: TextInputType.text,
                     minLines: 1,
-                    maxLines: 6,
+                    maxLines: 10,
                     maxLength: 900,
                     decoration: InputDecoration(
                       labelText: 'Description',

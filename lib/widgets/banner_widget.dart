@@ -64,8 +64,9 @@ class BannerWidget extends StatelessWidget {
                           oppositeShadowLightSource: true
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.network('https://firebasestorage.googleapis.com/v0/b/fir-pet-adoption.appspot.com/o/banner%2Ficons8-dog-100.png?alt=media&token=28725f4b-ed76-45a9-aec1-4658a47320be'),
+                          padding: const EdgeInsets.only(left: 0,right: 0,top: 0,bottom: 0), //EdgeInsets.all(8.0)
+                          child: Image.asset('images/Pet0.png'),
+                          // Image.network('https://firebasestorage.googleapis.com/v0/b/fir-pet-adoption.appspot.com/o/banner%2Ficons8-dog-100.png?alt=media&token=28725f4b-ed76-45a9-aec1-4658a47320be'),
                         ),
                       ),
                     ],

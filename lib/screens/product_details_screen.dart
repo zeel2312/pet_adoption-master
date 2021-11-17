@@ -152,9 +152,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           children: [
                             Row(
                               children: [
+                                SizedBox(height: 50,),
                                 Text(
                                   data['breed'].toUpperCase(),
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),
                                 ),
                                 Text(
                                   '(${(data['category'])})',
