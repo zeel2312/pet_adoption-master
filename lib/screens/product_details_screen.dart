@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:like_button/like_button.dart';
 import 'package:pet_adoption/provider/product_provider.dart';
 import 'package:photo_view/photo_view.dart';
@@ -20,6 +21,8 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  GoogleMapController _controller;
+
   bool _loading = true;
 
   int _index = 0;
@@ -34,6 +37,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     super.initState();
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     var _productProvider = Provider.of<ProductProvider>(context);
@@ -42,6 +47,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
     var date = DateTime.fromMicrosecondsSinceEpoch(data['postedAt']);
     var _date = DateFormat.yMMMd().format(date);
+
+    GeoPoint _location = _productProvider.sellerDetails['location'];
 
     return Scaffold(
       appBar: AppBar(
@@ -155,7 +162,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 SizedBox(height: 50,),
                                 Text(
                                   data['breed'].toUpperCase(),
-                                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
                                 ),
                                 Text(
                                   '(${(data['category'])})',
@@ -357,7 +366,18 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               height: 200,
                               color: Colors.grey.shade300,
                               child: Center(
-                                child: Text('Seller Location'),
+                                child: GoogleMap(
+                                  initialCameraPosition: CameraPosition(
+                                    target: LatLng(_location.latitude,_location.longitude),
+                                  ),
+                                  mapType: MapType.normal,
+                                  onMapCreated: (GoogleMapController controller){
+                                    setState(() {
+                                      _controller = controller;
+                                    });
+                                  },
+
+                                ),
                               ),
                             ),
                             SizedBox(
