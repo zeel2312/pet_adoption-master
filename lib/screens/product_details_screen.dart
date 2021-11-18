@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:like_button/like_button.dart';
+import 'package:map_launcher/map_launcher.dart' as launcher;
+import 'package:url_launcher/url_launcher.dart';
 import 'package:pet_adoption/provider/product_provider.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:provider/provider.dart';
@@ -35,6 +37,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       });
     });
     super.initState();
+  }
+
+  _mapLauncher(location)async{
+    final availableMaps = await launcher.MapLauncher.installedMaps;
+
+    await availableMaps.first.showMarker(
+      coords: launcher.Coords(location.latitude, location.longitude),
+      title: "Seller Location is here",
+    );
+  }
+
+  _callSeller(number){
+    launch(number);
   }
 
 
@@ -159,7 +174,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           children: [
                             Row(
                               children: [
-                                SizedBox(height: 50,),
+                                SizedBox(
+                                  height: 50,
+                                ),
                                 Text(
                                   data['breed'].toUpperCase(),
                                   style: TextStyle(
@@ -327,9 +344,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 Expanded(
                                   child: ListTile(
                                     title: Text(
-                                      _productProvider.sellerDetails==null ? '':
-                                      _productProvider.sellerDetails['name']
-                                          .toUpperCase(),
+                                      _productProvider.sellerDetails == null
+                                          ? ''
+                                          : _productProvider
+                                              .sellerDetails['name']
+                                              .toUpperCase(),
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 20),
@@ -365,19 +384,51 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             Container(
                               height: 200,
                               color: Colors.grey.shade300,
-                              child: Center(
-                                child: GoogleMap(
-                                  initialCameraPosition: CameraPosition(
-                                    target: LatLng(_location.latitude,_location.longitude),
+                              child: Stack(
+                                children: [
+                                  Center(
+                                    child: GoogleMap(
+                                      initialCameraPosition: CameraPosition(
+                                        target: LatLng(_location.latitude,
+                                            _location.longitude),
+                                        zoom: 15,
+                                      ),
+                                      mapType: MapType.normal,
+                                      onMapCreated:
+                                          (GoogleMapController controller) {
+                                        setState(() {
+                                          _controller = controller;
+                                        });
+                                      },
+                                    ),
                                   ),
-                                  mapType: MapType.normal,
-                                  onMapCreated: (GoogleMapController controller){
-                                    setState(() {
-                                      _controller = controller;
-                                    });
-                                  },
-
-                                ),
+                                  Center(
+                                    child: Icon(
+                                      Icons.location_on,
+                                      size: 35,
+                                    ),
+                                  ),
+                                  Center(
+                                    child: CircleAvatar(
+                                      radius: 60,
+                                      backgroundColor: Colors.black12,
+                                    ),
+                                  ),
+                                  Positioned(
+                                    right: 4.0,
+                                    top: 4.0,
+                                    child: Material(
+                                      elevation: 4,
+                                      shape: Border.all(color: Colors.grey),
+                                      child: IconButton(
+                                        icon: Icon(Icons.alt_route_outlined),
+                                        onPressed: () {
+                                          _mapLauncher(_location);
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                             SizedBox(
@@ -394,7 +445,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   ),
                                 ),
                                 TextButton(
-                                  onPressed: (){},
+                                  onPressed: () {},
                                   child: Text(
                                     'REPORT THIS AD',
                                     style: TextStyle(color: Colors.blue),
@@ -418,39 +469,65 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           padding: const EdgeInsets.all(16),
           child: Row(
             children: [
-              Expanded(child: NeumorphicButton(
-                onPressed: (){},
-                style: NeumorphicStyle(color: Theme.of(context).primaryColor),
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(CupertinoIcons.chat_bubble,size: 16,color: Colors.white,),
-                      SizedBox(width: 10,),
-                      Text('Chat',style: TextStyle(color: Colors.white),)
-                    ],
+              Expanded(
+                child: NeumorphicButton(
+                  onPressed: () {},
+                  style: NeumorphicStyle(color: Theme.of(context).primaryColor),
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          CupertinoIcons.chat_bubble,
+                          size: 16,
+                          color: Colors.white,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          'Chat',
+                          style: TextStyle(color: Colors.white),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),),
-              SizedBox(width: 20,),
-              Expanded(child: NeumorphicButton(
-                onPressed: (){},
-                style: NeumorphicStyle(color: Theme.of(context).primaryColor),
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(CupertinoIcons.phone,size: 16,color: Colors.white,),
-                      SizedBox(width: 10,),
-                      Text('Call',style: TextStyle(color: Colors.white),)
-                    ],
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              Expanded(
+                child: NeumorphicButton(
+                  onPressed: () {
+                    _callSeller('tel: ${_productProvider.sellerDetails['mobile']}');
+                  },
+                  style: NeumorphicStyle(color: Theme.of(context).primaryColor),
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          CupertinoIcons.phone,
+                          size: 16,
+                          color: Colors.white,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          'Call',
+                          style: TextStyle(color: Colors.white),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),),
+              ),
             ],
           ),
         ),
