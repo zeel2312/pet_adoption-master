@@ -14,7 +14,7 @@ class CategoryProvider with ChangeNotifier{
   Map<String,dynamic> dataToFirestore = {};
 
 
-  getCategory(selectedCat){
+   getCategory(selectedCat){
     this.selectedCategory = selectedCat;
     notifyListeners();
   }
@@ -50,6 +50,12 @@ class CategoryProvider with ChangeNotifier{
     this.urlList = [];
     dataToFirestore = {};
     notifyListeners();
+  }
+
+  clearSelectedCat(){
+     this.selectedCategory = null;
+     this.selectedSubCat = null;
+     notifyListeners();
   }
 
 }

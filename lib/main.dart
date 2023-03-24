@@ -15,6 +15,7 @@ import 'package:pet_adoption/screens/location_screen.dart';
 import 'package:pet_adoption/screens/login_screen.dart';
 import 'package:pet_adoption/screens/main_screen.dart';
 import 'package:pet_adoption/screens/product_details_screen.dart';
+import 'package:pet_adoption/screens/product_by_category_screen.dart';
 import 'package:pet_adoption/screens/sellitems/seller_category_list.dart';
 import 'package:pet_adoption/screens/sellitems/seller_subCat.dart';
 import 'package:pet_adoption/screens/splash_screen.dart';
@@ -62,6 +63,7 @@ class MyApp extends StatelessWidget {
         UserReviewScreen.id: (context) => UserReviewScreen(),
         FormsScreen.id: (context) => FormsScreen(),
         ProductDetailsScreen.id: (context) => ProductDetailsScreen(),
+        ProductByCategory.id: (context) => ProductByCategory(),
       },
     );
   }

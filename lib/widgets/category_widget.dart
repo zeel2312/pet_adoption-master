@@ -1,7 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:pet_adoption/forms/seller_pet_form.dart';
+import 'package:pet_adoption/provider/cat_provider.dart';
 import 'package:pet_adoption/screens/categories/category_list.dart';
+import 'package:pet_adoption/screens/categories/subCat_screen.dart';
+import 'package:pet_adoption/screens/product_by_category_screen.dart';
+import 'package:pet_adoption/screens/sellitems/seller_subCat.dart';
 import 'package:pet_adoption/services/firebase_services.dart';
+import 'package:provider/provider.dart';
 
 class CategoryWidget extends StatelessWidget {
   @override
@@ -9,6 +15,7 @@ class CategoryWidget extends StatelessWidget {
 
     FirebaseService _service = FirebaseService();
 
+    var _catProvider = Provider.of<CategoryProvider>(context);
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -56,20 +63,32 @@ class CategoryWidget extends StatelessWidget {
                         var doc = snapshot.data.docs[index];
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            width: 60,
-                            height: 50,
-                            child: Column(
-                              children:[
-                                Image.network(doc['image']),
-                                Flexible(
-                                  child: Text(
-                                    doc['catName'].toUpperCase(),
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(fontSize: 10),
+                          child: InkWell(
+                            onTap: (){
+                              _catProvider.getCategory(doc['catName']);
+                              _catProvider.getCatSnapshot(doc);
+
+                              if(doc['subCat']==null){
+                                _catProvider.getSubCategory(null);
+                                return Navigator.pushNamed(context, ProductByCategory.id);
+                              }
+                              Navigator.pushNamed(context, SubCatList.id,arguments: doc);
+                            },
+                            child: Container(
+                              width: 60,
+                              height: 50,
+                              child: Column(
+                                children:[
+                                  Image.network(doc['image']),
+                                  Flexible(
+                                    child: Text(
+                                      doc['catName'].toUpperCase(),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(fontSize: 10),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         );

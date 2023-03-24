@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pet_adoption/provider/cat_provider.dart';
 import 'package:pet_adoption/screens/product_list.dart';
 import 'package:pet_adoption/widgets/banner_widget.dart';
 import 'package:pet_adoption/widgets/category_widget.dart';
 import 'package:pet_adoption/widgets/custom_appBar.dart';
+import 'package:provider/provider.dart';
 import 'location_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -18,6 +20,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    var _catProvider = Provider.of<CategoryProvider>(context);
+    _catProvider.clearSelectedCat();
+
     return Scaffold(
       backgroundColor: Colors.grey.shade300,
       appBar: PreferredSize(
@@ -44,8 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             SizedBox(height: 10,),
-            ProductList(),
-
+            ProductList(false),
           ],
         ),
       ),
